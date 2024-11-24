@@ -18,7 +18,8 @@ const Income = (props: Props) => {
     description: "",
     date: "",
     amount: 0,
-    id: ""
+    id: "",
+    month: ""
   });
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -32,13 +33,13 @@ const Income = (props: Props) => {
       description: "",
       date: "",
       amount: 0,
-      id: ""
+      id: "",
+      month: ""
     });
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log(name, value);
 
     setFormData((prevState) => ({
       ...prevState,

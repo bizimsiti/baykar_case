@@ -1,15 +1,19 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { DataTable } from "./table/table";
 import { columns } from "./table/column";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { Data } from "../../../../types/Data";
 
 type Props = {};
 
 const Category = (props: Props) => {
-  const data = useSelector((state: RootState) => state.budget);
-
+  const datas = useSelector((state: RootState) => state.budget);
+  const [data, setData] = useState<Data[]>([]);
+  useEffect(() => {
+    setData(datas);
+  }, [datas]);
   const incomeData = [
     {
       incomeOrexpense: "expense",

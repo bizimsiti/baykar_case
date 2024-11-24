@@ -8,7 +8,6 @@ export const getTotal = (): string => {
   const incomesTotal = incomes.reduce((arr, curr) => arr + curr.amount, 0);
   const expensesTotal = expenses.reduce((arr, curr) => arr + curr.amount, 0);
   const totalBalance = incomesTotal - expensesTotal;
-  console.log("rendered");
 
   const formatted = new Intl.NumberFormat("tr-TR", {
     style: "currency",

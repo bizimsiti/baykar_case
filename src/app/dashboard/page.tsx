@@ -3,6 +3,7 @@ import Income from "./components/Income";
 import Expense from "./components/Expense";
 import TotalBalance from "./components/TotalBalance";
 import Category from "./components/Category";
+import Charts from "./components/Charts";
 
 type Props = {};
 
@@ -17,6 +18,8 @@ const page = (props: Props) => {
       <TotalBalance />
       {/* Categories */}
       <Category />
+      {/* charts */}
+      <Charts />
     </main>
   );
 };

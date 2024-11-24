@@ -13,10 +13,11 @@ type Props = {};
 
 const Expense = (props: Props) => {
   const data = useSelector((state: RootState) => state.budget);
-  const expenses = data.filter((item) => item.incomeOrexpense === "expense");
-  console.log(expenses);
-
-  useEffect(() => {}, [addExpense]);
+  const expensesData = data.filter((item) => item.incomeOrexpense === "expense");
+  const [expenses, setExpenses] = useState<Data[]>([]);
+  useEffect(() => {
+    setExpenses(expensesData);
+  }, [addExpense]);
 
   const dispatch = useDispatch();
 
@@ -28,7 +29,8 @@ const Expense = (props: Props) => {
     description: "",
     date: "",
     amount: 0,
-    id: ""
+    id: "",
+    month: ""
   });
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -43,7 +45,8 @@ const Expense = (props: Props) => {
       description: "",
       date: "",
       amount: 0,
-      id: ""
+      id: "",
+      month: ""
     });
   };
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

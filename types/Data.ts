@@ -5,13 +5,9 @@ export interface Data {
   date: string;
   amount: number;
   id: string;
+  month: string;
 }
 
 export interface ExpenseData extends Data {
   limit: number;
-}
-
-export interface Budget {
-  incomes: Data[];
-  expenses: ExpenseData[];
 }

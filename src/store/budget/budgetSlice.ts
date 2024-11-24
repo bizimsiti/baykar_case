@@ -1,8 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Budget, Data } from "../../../types/Data";
+import { Data } from "../../../types/Data";
 import { nanoid } from "@reduxjs/toolkit";
+import { getMonth } from "date-fns";
+import { months } from "@/helpers/months";
+const getFromLocalStorage = (key: string) => {
+  if (!key || typeof window === "undefined") {
+    return "";
+  }
+  return localStorage.getItem(key);
+};
 
-const initialState: Data[] = JSON.parse(localStorage.getItem("budget") as string) || [];
+const initialState: Data[] = getFromLocalStorage("budget") ? JSON.parse(getFromLocalStorage("budget") as string) : [];
 
 const budgetSlice = createSlice({
   name: "budget",
@@ -10,16 +18,18 @@ const budgetSlice = createSlice({
   reducers: {
     addIncome: (state, action: PayloadAction<Data>) => {
       const id = nanoid();
+      const monthIndex = getMonth(action.payload.date);
 
-      state.push({ ...action.payload, id, incomeOrexpense: "income" });
+      state.push({ ...action.payload, id, incomeOrexpense: "income", month: months[monthIndex] });
       localStorage.setItem("budget", JSON.stringify(state));
     },
     addExpense: (state, action: PayloadAction<Data>) => {
       const id = nanoid();
-      state.push({ ...action.payload, id, incomeOrexpense: "expense" });
+      const monthIndex = getMonth(action.payload.date);
+      state.push({ ...action.payload, id, incomeOrexpense: "expense", month: months[monthIndex] });
       localStorage.setItem("budget", JSON.stringify(state));
     },
-    deleteData: (state, action) => {
+    deleteData: (state, action: PayloadAction<string>) => {
       state.splice(
         state.findIndex((item) => item.id === action.payload),
         1
