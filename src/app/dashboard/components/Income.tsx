@@ -5,13 +5,13 @@ import { Plus } from "lucide-react";
 import { formSchema } from "../../../../schemas/formSchema";
 import { ZodError } from "zod";
 import { useDispatch, useSelector } from "react-redux";
-import { addIncome, addIncomeAsync } from "@/store/income/incomeSlice";
+import { addIncome } from "@/store/income/incomeSlice";
 import { RootState } from "@/store/store";
 
 type Props = {};
 
 const Income = (props: Props) => {
-  const incomeData = useSelector((state: RootState) => state.income);
+  const incomeData = useSelector((state: RootState) => state.incomes);
   const dispatch = useDispatch();
   const [error, setError] = useState<string>("");
 
@@ -21,7 +21,8 @@ const Income = (props: Props) => {
     category: "",
     description: "",
     date: "",
-    amount: 0
+    amount: 0,
+    id: ""
   });
   // const addIncome = (formData: FormData) => {
   //   const category = formData.get("cat") as string;
@@ -61,7 +62,8 @@ const Income = (props: Props) => {
       category: "",
       description: "",
       date: "",
-      amount: 0
+      amount: 0,
+      id: ""
     });
   };
 

@@ -3,4 +3,5 @@ export interface Data {
   description: string;
   date: string;
   amount: number;
+  id: string;
 }

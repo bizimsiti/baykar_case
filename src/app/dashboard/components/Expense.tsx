@@ -11,46 +11,46 @@ const Expense = (props: Props) => {
   const [amount, setAmount] = useState<number>(0);
   const [error, setError] = useState<string>("");
 
-  const expenses: Data[] = JSON.parse(localStorage.getItem("expenses") as string) || [];
-  const formRef = useRef<ElementRef<"form">>(null);
-  const addExpense = (formdata: FormData) => {
-    const category = formdata.get("cat") as string;
-    const description = formdata.get("desc") as string;
-    const date = formdata.get("date") as string;
-    const expense: Data = {
-      amount,
-      category,
-      date,
-      description
-    };
+  // const expenses: Data[] = JSON.parse(localStorage.getItem("expenses") as string) || [];
+  // const formRef = useRef<ElementRef<"form">>(null);
+  // const addExpense = (formdata: FormData) => {
+  //   const category = formdata.get("cat") as string;
+  //   const description = formdata.get("desc") as string;
+  //   const date = formdata.get("date") as string;
+  //   const expense: Data = {
+  //     amount,
+  //     category,
+  //     date,
+  //     description
+  //   };
 
-    try {
-      const expense: Data = {
-        category,
-        amount,
-        description,
-        date
-      };
-      const { category: cat, amount: am, date: dat, description: desc } = formSchema.parse(expense);
-      const validatedExpense: Data = {
-        category: cat,
-        amount: am,
-        description: desc,
-        date: dat
-      };
-      expenses.push(validatedExpense);
-      formRef.current?.reset();
-      localStorage.setItem("expenses", JSON.stringify(expenses));
-    } catch (error) {
-      if (error instanceof ZodError) {
-        console.log(error.issues);
-        setError(error.issues[0].message);
-      }
-    }
-  };
+  //   try {
+  //     const expense: Data = {
+  //       category,
+  //       amount,
+  //       description,
+  //       date
+  //     };
+  //     const { category: cat, amount: am, date: dat, description: desc } = formSchema.parse(expense);
+  //     const validatedExpense: Data = {
+  //       category: cat,
+  //       amount: am,
+  //       description: desc,
+  //       date: dat
+  //     };
+  //     expenses.push(validatedExpense);
+  //     formRef.current?.reset();
+  //     localStorage.setItem("expenses", JSON.stringify(expenses));
+  //   } catch (error) {
+  //     if (error instanceof ZodError) {
+  //       console.log(error.issues);
+  //       setError(error.issues[0].message);
+  //     }
+  //   }
+  // };
   return (
     <section className="flex flex-col border-2 border-white rounded p-5">
-      <form ref={formRef} action={(e) => addExpense(e)}>
+      <form>
         {error && <div className="text-sm border border-red-600 bg-red-600 text-white">{error}</div>}
         <button
           id="income"

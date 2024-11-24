@@ -1,27 +1,23 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { Data } from "../../../types/Data";
+import { nanoid } from "@reduxjs/toolkit";
 
-const initialState: Data[] = [];
+const initialState: Data[] = JSON.parse(localStorage.getItem("incomes") as string) || [];
 
 const incomeSlice = createSlice({
-  name: "income",
+  name: "incomes",
   initialState,
   reducers: {
     addIncome: (state, action) => {
-      console.log(action.payload);
-      state.push(action.payload);
+      const id = nanoid();
+      console.log(id);
+      state.push({ ...action.payload, id });
       localStorage.setItem("incomes", JSON.stringify(state));
     }
-  },
-  extraReducers: (builder) => {
-    builder.addCase(addIncomeAsync.fulfilled, (state) => {
-      console.log();
-    });
-  }
-});
+    // deleteIncome:(state,action)=>{
 
-export const addIncomeAsync = createAsyncThunk("income/addIncomeAsync", async () => {
-  await new Promise((resolve) => setTimeout(() => resolve, 1000));
+    // }
+  }
 });
 
 export default incomeSlice.reducer;

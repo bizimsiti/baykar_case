@@ -3,7 +3,7 @@ import incomeReducer from "./income/incomeSlice";
 
 export const store = configureStore({
   reducer: {
-    income: incomeReducer
+    incomes: incomeReducer
   }
 });
 export type RootState = ReturnType<typeof store.getState>;
