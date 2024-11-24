@@ -1,35 +1,83 @@
 "use client";
-import React, { ElementRef, useRef, useState } from "react";
+import React, { ChangeEvent, ElementRef, FormEvent, useRef, useState } from "react";
 import { Data } from "../../../../types/Data";
 import { Plus } from "lucide-react";
+import { formSchema } from "../../../../schemas/formSchema";
+import { ZodError } from "zod";
+import { useDispatch, useSelector } from "react-redux";
+import { addIncome, addIncomeAsync } from "@/store/income/incomeSlice";
+import { RootState } from "@/store/store";
 
 type Props = {};
 
 const Income = (props: Props) => {
-  const [amount, setAmount] = useState<number>(0);
+  const incomeData = useSelector((state: RootState) => state.income);
+  const dispatch = useDispatch();
+  const [error, setError] = useState<string>("");
 
   const incomes: Data[] = JSON.parse(localStorage.getItem("incomes") as string) || [];
   const formRef = useRef<ElementRef<"form">>(null);
-  const addIncome = (formData: FormData) => {
-    const category = formData.get("cat") as string;
-    const description = formData.get("desc") as string;
-    const date = formData.get("date") as string;
+  const [formData, setFormData] = useState<Data>({
+    category: "",
+    description: "",
+    date: "",
+    amount: 0
+  });
+  // const addIncome = (formData: FormData) => {
+  //   const category = formData.get("cat") as string;
+  //   const description = formData.get("desc") as string;
+  //   const date = formData.get("date") as string;
 
-    const income: Data = {
-      category,
-      amount,
-      description,
-      date
-    };
-    console.log(incomes);
-
-    incomes.push(income);
-    formRef.current?.reset();
-    localStorage.setItem("incomes", JSON.stringify(incomes));
+  //   try {
+  //     const income: Data = {
+  //       category,
+  //       amount,
+  //       description,
+  //       date
+  //     };
+  //     const { category: cat, amount: am, date: dat, description: desc } = formSchema.parse(income);
+  //     const validatedIncome: Data = {
+  //       category: cat,
+  //       amount: am,
+  //       description: desc,
+  //       date: dat
+  //     };
+  //     incomes.push(validatedIncome);
+  //     formRef.current?.reset();
+  //     localStorage.setItem("incomes", JSON.stringify(incomes));
+  //   } catch (error) {
+  //     if (error instanceof ZodError) {
+  //       console.log(error.issues);
+  //       setError(error.issues[0].message);
+  //     }
+  //   }
+  // };
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Dispatch submitForm action with form data
+    dispatch(addIncome(formData));
+    // Clear form data after submission
+    setFormData({
+      category: "",
+      description: "",
+      date: "",
+      amount: 0
+    });
   };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    console.log(name, value);
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
   return (
     <section className="flex flex-col border-2 border-white roun p-5">
-      <form ref={formRef} action={addIncome}>
+      <form ref={formRef} onSubmit={handleSubmit}>
+        {error && <div className="text-sm border border-red-600 bg-red-600 text-white">{error}</div>}
         <button
           id="income"
           type="submit"
@@ -43,19 +91,45 @@ const Income = (props: Props) => {
             <label className="text-white" htmlFor="cat">
               Kategori
             </label>
-            <input type="text" id="cat" name="cat" placeholder="kategori" className=" rounded p-3" />
+            <input
+              required
+              type="text"
+              id="category"
+              name="category"
+              placeholder="kategori"
+              className=" rounded p-3 outline-none"
+              value={formData.category}
+              onChange={handleChange}
+            />
           </div>
           <div className=" flex flex-col  mt-2">
             <label className="text-white" htmlFor="desc">
               Açıklama
             </label>
-            <input type="text" id="desc" name="desc" placeholder="açıklama" className="rounded p-3" />
+            <input
+              required
+              type="text"
+              id="description"
+              name="description"
+              placeholder="açıklama"
+              className="rounded p-3 outline-none"
+              value={formData.description}
+              onChange={handleChange}
+            />
           </div>
           <div className=" flex flex-col  mt-2">
             <label className="text-white" htmlFor="date">
               Tarih
             </label>
-            <input type="date" id="date" name="date" className="rounded p-3" />
+            <input
+              required
+              type="date"
+              id="date"
+              name="date"
+              className="rounded p-3 outline-none"
+              value={formData.date}
+              onChange={handleChange}
+            />
           </div>
 
           <div className=" flex flex-col  mt-2">
@@ -63,13 +137,14 @@ const Income = (props: Props) => {
               Miktar
             </label>
             <input
+              required
               type="number"
               id="amount"
               name="amount"
               placeholder="Miktar"
-              className=" rounded p-3"
-              value={amount}
-              onChange={(e) => setAmount(Number(e.target.value))}
+              className=" rounded p-3 outline-none"
+              value={formData.amount}
+              onChange={handleChange}
             />
           </div>
         </div>
