@@ -8,7 +8,7 @@ type Props = {};
 
 const page = (props: Props) => {
   return (
-    <main className="flex flex-col flex-wrap items-center md:justify-around md:flex-row lg:max-w-[1000px] gap-2 pt-7 m-auto lg:mt-20 bg-backgroundtheme">
+    <main className="flex flex-col flex-wrap md:justify-around md:flex-row lg:max-w-[1000px] gap-2 pt-7 m-auto lg:mt-20 bg-backgroundtheme">
       {/* Income component */}
       <Income />
       {/* Expense component */}

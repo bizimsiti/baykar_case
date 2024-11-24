@@ -2,63 +2,32 @@
 import React, { ChangeEvent, ElementRef, FormEvent, useRef, useState } from "react";
 import { Data } from "../../../../types/Data";
 import { Plus } from "lucide-react";
-import { formSchema } from "../../../../schemas/formSchema";
-import { ZodError } from "zod";
-import { useDispatch, useSelector } from "react-redux";
-import { addIncome } from "@/store/income/incomeSlice";
-import { RootState } from "@/store/store";
+import { useDispatch } from "react-redux";
+import { addIncome } from "@/store/budget/budgetSlice";
 
 type Props = {};
 
 const Income = (props: Props) => {
-  const incomeData = useSelector((state: RootState) => state.incomes);
   const dispatch = useDispatch();
   const [error, setError] = useState<string>("");
 
-  const incomes: Data[] = JSON.parse(localStorage.getItem("incomes") as string) || [];
   const formRef = useRef<ElementRef<"form">>(null);
   const [formData, setFormData] = useState<Data>({
+    incomeOrexpense: "",
     category: "",
     description: "",
     date: "",
     amount: 0,
     id: ""
   });
-  // const addIncome = (formData: FormData) => {
-  //   const category = formData.get("cat") as string;
-  //   const description = formData.get("desc") as string;
-  //   const date = formData.get("date") as string;
 
-  //   try {
-  //     const income: Data = {
-  //       category,
-  //       amount,
-  //       description,
-  //       date
-  //     };
-  //     const { category: cat, amount: am, date: dat, description: desc } = formSchema.parse(income);
-  //     const validatedIncome: Data = {
-  //       category: cat,
-  //       amount: am,
-  //       description: desc,
-  //       date: dat
-  //     };
-  //     incomes.push(validatedIncome);
-  //     formRef.current?.reset();
-  //     localStorage.setItem("incomes", JSON.stringify(incomes));
-  //   } catch (error) {
-  //     if (error instanceof ZodError) {
-  //       console.log(error.issues);
-  //       setError(error.issues[0].message);
-  //     }
-  //   }
-  // };
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Dispatch submitForm action with form data
+
     dispatch(addIncome(formData));
-    // Clear form data after submission
+
     setFormData({
+      incomeOrexpense: "",
       category: "",
       description: "",
       date: "",
@@ -70,9 +39,10 @@ const Income = (props: Props) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     console.log(name, value);
+
     setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: name === "amount" ? Number(value) : value
     }));
   };
 

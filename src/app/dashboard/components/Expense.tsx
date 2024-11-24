@@ -1,56 +1,64 @@
 "use client";
-import React, { ElementRef, useRef, useState } from "react";
-import { Data } from "../../../../types/Data";
+import React, { ChangeEvent, ElementRef, FormEvent, useEffect, useRef, useState } from "react";
+import { Data, ExpenseData } from "../../../../types/Data";
 import { Plus } from "lucide-react";
 import { formSchema } from "../../../../schemas/formSchema";
-import { ZodError } from "zod";
+import { input, ZodError } from "zod";
+import { useDispatch, useSelector } from "react-redux";
+import { addExpense } from "@/store/budget/budgetSlice";
+import { RootState } from "@/store/store";
+import { stat } from "fs";
 
 type Props = {};
 
 const Expense = (props: Props) => {
-  const [amount, setAmount] = useState<number>(0);
+  const data = useSelector((state: RootState) => state.budget);
+  const expenses = data.filter((item) => item.incomeOrexpense === "expense");
+  console.log(expenses);
+
+  useEffect(() => {}, [addExpense]);
+
+  const dispatch = useDispatch();
+
   const [error, setError] = useState<string>("");
+  const [formData, setFormData] = useState<ExpenseData>({
+    limit: 0,
+    incomeOrexpense: "",
+    category: "",
+    description: "",
+    date: "",
+    amount: 0,
+    id: ""
+  });
 
-  // const expenses: Data[] = JSON.parse(localStorage.getItem("expenses") as string) || [];
-  // const formRef = useRef<ElementRef<"form">>(null);
-  // const addExpense = (formdata: FormData) => {
-  //   const category = formdata.get("cat") as string;
-  //   const description = formdata.get("desc") as string;
-  //   const date = formdata.get("date") as string;
-  //   const expense: Data = {
-  //     amount,
-  //     category,
-  //     date,
-  //     description
-  //   };
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  //   try {
-  //     const expense: Data = {
-  //       category,
-  //       amount,
-  //       description,
-  //       date
-  //     };
-  //     const { category: cat, amount: am, date: dat, description: desc } = formSchema.parse(expense);
-  //     const validatedExpense: Data = {
-  //       category: cat,
-  //       amount: am,
-  //       description: desc,
-  //       date: dat
-  //     };
-  //     expenses.push(validatedExpense);
-  //     formRef.current?.reset();
-  //     localStorage.setItem("expenses", JSON.stringify(expenses));
-  //   } catch (error) {
-  //     if (error instanceof ZodError) {
-  //       console.log(error.issues);
-  //       setError(error.issues[0].message);
-  //     }
-  //   }
-  // };
+    dispatch(addExpense(formData));
+
+    setFormData({
+      limit: 0,
+      incomeOrexpense: "",
+      category: "",
+      description: "",
+      date: "",
+      amount: 0,
+      id: ""
+    });
+  };
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    console.log(name, value);
+
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: name === "amount" ? Number(value) : value
+    }));
+  };
+
   return (
     <section className="flex flex-col border-2 border-white rounded p-5">
-      <form>
+      <form onSubmit={handleSubmit}>
         {error && <div className="text-sm border border-red-600 bg-red-600 text-white">{error}</div>}
         <button
           id="income"
@@ -63,16 +71,26 @@ const Expense = (props: Props) => {
         <div className=" flex flex-col mt-2">
           <div className=" flex flex-col  mt-2">
             <label className="text-white" htmlFor="cat">
-              Kategori
+              Yeni Kategori Ekle
             </label>
             <input
               required
               type="text"
-              id="cat"
-              name="cat"
+              id="category"
+              name="category"
               placeholder="kategori"
               className=" rounded p-3 outline-none"
+              value={formData.category}
+              onChange={handleChange}
             />
+          </div>
+          <div className=" flex flex-col  mt-2">
+            <label className="text-white" htmlFor="cars">
+              Kategori seç
+            </label>
+            <select name="cars" id="cars" className=" rounded p-3 outline-none">
+              {expenses && expenses.map((expense) => <option value={expense.category}>{expense.category}</option>)}
+            </select>
           </div>
           <div className=" flex flex-col  mt-2">
             <label className="text-white" htmlFor="desc">
@@ -81,17 +99,41 @@ const Expense = (props: Props) => {
             <input
               required
               type="text"
-              id="desc"
-              name="desc"
+              id="description"
+              name="description"
               placeholder="açıklama"
               className="rounded p-3 outline-none"
+              value={formData.description}
+              onChange={handleChange}
             />
           </div>
           <div className=" flex flex-col  mt-2">
             <label className="text-white" htmlFor="date">
               Tarih
             </label>
-            <input required type="date" id="date" name="date" className="rounded p-3 outline-none" />
+            <input
+              required
+              type="date"
+              id="date"
+              name="date"
+              className="rounded p-3 outline-none"
+              value={formData.date}
+              onChange={handleChange}
+            />
+          </div>
+          <div className=" flex flex-col  mt-2">
+            <label className="text-white" htmlFor="limit">
+              Harcama Limiti
+            </label>
+            <input
+              required
+              type="text"
+              id="limit"
+              name="limit"
+              className="rounded p-3 outline-none"
+              value={formData.limit}
+              onChange={handleChange}
+            />
           </div>
 
           <div className=" flex flex-col  mt-2">
@@ -103,11 +145,10 @@ const Expense = (props: Props) => {
               type="number"
               id="amount"
               name="amount"
-              min={"0"}
               placeholder="Miktar"
               className=" rounded p-3 outline-none"
-              value={amount}
-              onChange={(e) => setAmount(Number(e.target.value))}
+              value={formData.amount}
+              onChange={handleChange}
             />
           </div>
         </div>

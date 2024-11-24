@@ -1,9 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import incomeReducer from "./income/incomeSlice";
-
+import budgetReducer from "./budget/budgetSlice";
 export const store = configureStore({
   reducer: {
-    incomes: incomeReducer
+    budget: budgetReducer
   }
 });
 export type RootState = ReturnType<typeof store.getState>;

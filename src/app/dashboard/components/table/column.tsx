@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Data } from "../../../../../types/Data";
+import { Budget, Data } from "../../../../../types/Data";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,17 +12,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, Trash2, Pencil } from "lucide-react";
-
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Payment = {
-  id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
-};
+import { deleteData } from "@/store/budget/budgetSlice";
+import { store } from "@/store/store";
 
 export const columns: ColumnDef<Data>[] = [
+  {
+    accessorKey: "incomeOrexpense",
+    header: "Income or Expense"
+  },
   {
     accessorKey: "category",
     header: "Category"
@@ -37,15 +34,23 @@ export const columns: ColumnDef<Data>[] = [
   },
   {
     accessorKey: "amount",
-    header: "Amount"
+    header: () => <div className="text-right">Amount</div>,
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("amount"));
+      const formatted = new Intl.NumberFormat("tr-TR", {
+        style: "currency",
+        currency: "TRY"
+      }).format(amount);
+
+      return <div className="text-right font-medium">{formatted}</div>;
+    }
   },
   {
     accessorKey: "actions",
     header: "Actions",
     id: "actions",
     cell: ({ row }) => {
-      const income = row.original;
-      console.log(income.id);
+      const budget = row.original;
 
       return (
         <DropdownMenu>
@@ -57,11 +62,11 @@ export const columns: ColumnDef<Data>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(income.id)}>
+            <DropdownMenuItem>
               Edit <Pencil className="0 h-5 w-5" />
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => alert(income.id)}>
+            <DropdownMenuItem onClick={() => store.dispatch(deleteData(budget.id))}>
               Delete <Trash2 className="text-red-600 h-5 w-5" />
             </DropdownMenuItem>
           </DropdownMenuContent>
