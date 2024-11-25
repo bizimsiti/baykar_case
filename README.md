@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NOTLAR
+##
+Kategorideki harcamalar limitin %80'ini aştığında tabloda kırmızı renk ile işaretlenir.
 
 ## Getting Started
 
