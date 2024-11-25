@@ -49,13 +49,13 @@ const Income = (props: Props) => {
   };
 
   return (
-    <section className="flex flex-col border-2 border-white roun p-5">
+    <section className="dark:bg-gray-800 dark:text-white flex flex-col border-2 border-white dark:border-gray-500 rounded-md p-5">
       <form ref={formRef} onSubmit={handleSubmit}>
         {error && <div className="text-sm border border-red-600 bg-red-600 text-white">{error}</div>}
         <button
           id="income"
           type="submit"
-          className="w-full text-darkblue bg-white p-2 flex items-center font-medium text-lg text-center justify-center self-center"
+          className="dark:bg-gray-500 dark:text-white  w-full text-darkblue bg-white p-2 flex items-center font-medium text-lg text-center justify-center self-center hover:bg-gray-500 hover:text-white rounded-sm transition-all duration-300 active:bg-white active:text-gray-500 dark:hover:bg-white dark:hover:text-gray-500 dark:active:bg-gray-500 dark:active:text-white"
         >
           <Plus className="h-5 w-5 mr-2" />
           GELİR EKLE
@@ -71,7 +71,7 @@ const Income = (props: Props) => {
               id="category"
               name="category"
               placeholder="kategori"
-              className=" rounded p-3 outline-none"
+              className="dark:bg-gray-500 dark:text-white  rounded p-3 outline-none"
               value={formData.category}
               onChange={handleChange}
             />
@@ -86,7 +86,7 @@ const Income = (props: Props) => {
               id="description"
               name="description"
               placeholder="açıklama"
-              className="rounded p-3 outline-none"
+              className="dark:bg-gray-500 dark:text-white  rounded p-3 outline-none"
               value={formData.description}
               onChange={handleChange}
             />
@@ -100,7 +100,7 @@ const Income = (props: Props) => {
               type="date"
               id="date"
               name="date"
-              className="rounded p-3 outline-none"
+              className="dark:bg-gray-500 dark:text-white  rounded p-3 outline-none"
               value={formData.date}
               onChange={handleChange}
             />
@@ -116,7 +116,7 @@ const Income = (props: Props) => {
               id="amount"
               name="amount"
               placeholder="Miktar"
-              className=" rounded p-3 outline-none"
+              className="dark:bg-gray-500 dark:text-white  rounded p-3 outline-none"
               value={formData.amount}
               onChange={handleChange}
             />

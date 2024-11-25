@@ -3,8 +3,8 @@ import { Data, MonthlyTotals } from "../../types/Data";
 export const calculateMonthlyTotals = (state: Data[]): MonthlyTotals[] => {
   const monthlyTotals: Record<string, { income: number; expense: number }> = {};
 
-  state.forEach((entry) => {
-    const { month, incomeOrexpense, amount } = entry;
+  state.forEach((item) => {
+    const { month, incomeOrexpense, amount } = item;
 
     if (!monthlyTotals[month]) {
       monthlyTotals[month] = { income: 0, expense: 0 };

@@ -5,32 +5,22 @@ import { Data, MonthlyTotals } from "../../../../types/Data";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { getMontyChange } from "@/store/budget/budgetSlice";
+import useMonthlyBalance from "@/hooks/useMontlyBalance";
 
 type Props = {};
 
 const Charts = (props: Props) => {
-  // const [data, setData] = useState<MonthlyTotals[]>([]);
-  const dispatch = useDispatch();
+  const { monthlyBalance } = useMonthlyBalance();
 
-  // useEffect(() => {
-  //   const getDatas = (): void => {
-  //     const datas = dispatch(getMontyChange(""));
-  //     console.log(datas);
-  //     setData(datas.payload);
-  //   };
-  //   getDatas();
-  // }, [data]);
-  const datas = dispatch(getMontyChange(""));
-  const data = datas.payload;
   return (
-    <section className="border-white border-2 flex flex-col justify-center items-center p-3 font-bold text-lg text-white w-full ">
+    <section className="border-white border-2 flex flex-col justify-center items-center p-3 font-bold text-lg text-white w-full dark:bg-gray-800 dark:text-white rounded-md">
       <h3 className="mb-3">Charts</h3>
       <div className="w-full min-h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             width={500}
             height={300}
-            data={data}
+            data={monthlyBalance}
             margin={{
               top: 5,
               right: 30,

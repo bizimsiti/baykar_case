@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Data, MonthlyTotals } from "../../../types/Data";
+import { Data } from "../../../types/Data";
 import { nanoid } from "@reduxjs/toolkit";
 import { getMonth } from "date-fns";
 import { months } from "@/helpers/months";
-import { calculateMonthlyTotals } from "@/helpers/getMontlyChange";
+import { calculateMonthlyTotals } from "@/helpers/calculateMontlyChange";
 const getFromLocalStorage = (key: string) => {
   if (!key || typeof window === "undefined") {
     return "";

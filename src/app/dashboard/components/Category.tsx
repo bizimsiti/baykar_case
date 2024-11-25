@@ -137,7 +137,7 @@ const Category = (props: Props) => {
     }
   ];
   return (
-    <section className="rounded p-3 bg-white w-full my-20">
+    <section className="dark:bg-gray-800 dark:text-white rounded-md p-3 bg-white w-full my-20">
       <DataTable columns={columns} data={data} />
     </section>
   );

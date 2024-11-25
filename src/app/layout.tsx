@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Roboto } from "next/font/google";
 import { StoreProvider } from "@/store/StoreProvider";
+import Navbar from "@/components/_components/Navbar";
 const roboto = Roboto({
   weight: ["100", "300", "400", "500", "700", "900"],
   subsets: ["latin"]
@@ -20,7 +21,10 @@ export default function RootLayout({
   return (
     <StoreProvider>
       <html lang="en">
-        <body className={roboto.className}>{children}</body>
+        <body className={`${roboto.className} dark:bg-gradient-to-bl from-slate-900 from-0% via-cyan-900 to-gray-900`}>
+          <Navbar />
+          {children}
+        </body>
       </html>
     </StoreProvider>
   );
