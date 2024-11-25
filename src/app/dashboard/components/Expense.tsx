@@ -1,27 +1,16 @@
 "use client";
 import React, { ChangeEvent, ElementRef, FormEvent, useEffect, useRef, useState } from "react";
-import { Data, ExpenseData } from "../../../../types/Data";
+import { ExpenseData } from "../../../../types/Data";
 import { Plus } from "lucide-react";
-import { formSchema } from "../../../../schemas/formSchema";
-import { input, ZodError } from "zod";
-import { useDispatch, useSelector } from "react-redux";
+
+import { useDispatch } from "react-redux";
 import { addExpense, getMontyChange } from "@/store/budget/budgetSlice";
-import { RootState } from "@/store/store";
-import { stat } from "fs";
 
 type Props = {};
 
 const Expense = (props: Props) => {
-  const data = useSelector((state: RootState) => state.budget);
-  const expensesData = data.filter((item) => item.incomeOrexpense === "expense");
-  const [expenses, setExpenses] = useState<Data[]>([]);
-  useEffect(() => {
-    setExpenses(expensesData);
-  }, [addExpense]);
-
   const dispatch = useDispatch();
 
-  const [error, setError] = useState<string>("");
   const [formData, setFormData] = useState<ExpenseData>({
     limit: 0,
     incomeOrexpense: "",
@@ -61,19 +50,18 @@ const Expense = (props: Props) => {
   return (
     <section className="flex flex-col border-2 border-white rounded-md p-5 dark:bg-gray-800 dark:text-white dark:border-gray-500">
       <form onSubmit={handleSubmit}>
-        {error && <div className="text-sm border border-red-600 bg-red-600 text-white">{error}</div>}
         <button
           id="income"
           type="submit"
           className="dark:bg-gray-500 dark:text-white  w-full text-darkblue bg-white p-2 flex items-center font-medium text-lg text-center justify-center self-center hover:bg-gray-500 hover:text-white rounded-sm transition-all duration-300 active:bg-white active:text-gray-500 dark:hover:bg-white dark:hover:text-gray-500 dark:active:bg-gray-500 dark:active:text-white"
         >
           <Plus className="h-5 w-5 mr-2" />
-          GİDER EKLE
+          ADD EXPENSE
         </button>
         <div className=" flex flex-col mt-2">
           <div className=" flex flex-col  mt-2">
             <label className="text-white" htmlFor="cat">
-              Yeni Kategori Ekle
+              Category
             </label>
             <input
               required
@@ -86,14 +74,10 @@ const Expense = (props: Props) => {
               onChange={handleChange}
             />
           </div>
-          <div className=" flex flex-col  mt-2">
-            <label className="text-white" htmlFor="selectcategory">
-              Kategori seç
-            </label>
-          </div>
+
           <div className=" flex flex-col  mt-2">
             <label className="text-white" htmlFor="desc">
-              Açıklama
+              Description
             </label>
             <input
               required
@@ -108,7 +92,7 @@ const Expense = (props: Props) => {
           </div>
           <div className=" flex flex-col  mt-2">
             <label className="text-white" htmlFor="date">
-              Tarih
+              Date
             </label>
             <input
               required
@@ -122,7 +106,7 @@ const Expense = (props: Props) => {
           </div>
           <div className=" flex flex-col  mt-2">
             <label className="text-white" htmlFor="limit">
-              Harcama Limiti
+              Spending Limit
             </label>
             <input
               required
@@ -137,7 +121,7 @@ const Expense = (props: Props) => {
 
           <div className=" flex flex-col  mt-2">
             <label className="text-white" htmlFor="amount">
-              Miktar
+              Amount
             </label>
             <input
               required

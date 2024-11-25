@@ -9,7 +9,6 @@ type Props = {};
 
 const Income = (props: Props) => {
   const dispatch = useDispatch();
-  const [error, setError] = useState<string>("");
 
   const formRef = useRef<ElementRef<"form">>(null);
   const [formData, setFormData] = useState<Data>({
@@ -25,6 +24,10 @@ const Income = (props: Props) => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (formData.amount <= 0) {
+      alert("Miktar 0'dan büyük olmalıdır.");
+      return;
+    }
     dispatch(addIncome(formData));
     dispatch(getMontyChange(""));
 
@@ -44,26 +47,25 @@ const Income = (props: Props) => {
 
     setFormData((prevState) => ({
       ...prevState,
-      [name]: name === "amount" ? Number(value) : value
+      [name]: name === "amount" ? (isNaN(Number(value)) ? 0 : Number(value)) : value
     }));
   };
 
   return (
     <section className="dark:bg-gray-800 dark:text-white flex flex-col border-2 border-white dark:border-gray-500 rounded-md p-5">
       <form ref={formRef} onSubmit={handleSubmit}>
-        {error && <div className="text-sm border border-red-600 bg-red-600 text-white">{error}</div>}
         <button
           id="income"
           type="submit"
           className="dark:bg-gray-500 dark:text-white  w-full text-darkblue bg-white p-2 flex items-center font-medium text-lg text-center justify-center self-center hover:bg-gray-500 hover:text-white rounded-sm transition-all duration-300 active:bg-white active:text-gray-500 dark:hover:bg-white dark:hover:text-gray-500 dark:active:bg-gray-500 dark:active:text-white"
         >
           <Plus className="h-5 w-5 mr-2" />
-          GELİR EKLE
+          ADD INCOME
         </button>
         <div className=" flex flex-col mt-2">
           <div className=" flex flex-col  mt-2">
             <label className="text-white" htmlFor="cat">
-              Kategori
+              Category
             </label>
             <input
               required
@@ -78,7 +80,7 @@ const Income = (props: Props) => {
           </div>
           <div className=" flex flex-col  mt-2">
             <label className="text-white" htmlFor="desc">
-              Açıklama
+              Description
             </label>
             <input
               required
@@ -93,7 +95,7 @@ const Income = (props: Props) => {
           </div>
           <div className=" flex flex-col  mt-2">
             <label className="text-white" htmlFor="date">
-              Tarih
+              Date
             </label>
             <input
               required
@@ -108,7 +110,7 @@ const Income = (props: Props) => {
 
           <div className=" flex flex-col  mt-2">
             <label className="text-white" htmlFor="amount">
-              Miktar
+              Amount
             </label>
             <input
               required

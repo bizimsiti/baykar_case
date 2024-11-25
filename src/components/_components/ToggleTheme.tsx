@@ -4,7 +4,7 @@ import { Sun, Moon } from "lucide-react";
 type Props = {};
 
 const ToggleTheme = (props: Props) => {
-  const [darkMode, setDarkMode] = useState<boolean>(true);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
   useEffect(() => {
     const theme = localStorage.getItem("theme");
     if (theme === "dark") setDarkMode(true);

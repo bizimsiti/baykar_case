@@ -1,10 +1,7 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import { Data, MonthlyTotals } from "../../../../types/Data";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store/store";
-import { getMontyChange } from "@/store/budget/budgetSlice";
+
 import useMonthlyBalance from "@/hooks/useMontlyBalance";
 
 type Props = {};
@@ -13,7 +10,7 @@ const Charts = (props: Props) => {
   const { monthlyBalance } = useMonthlyBalance();
 
   return (
-    <section className="border-white border-2 flex flex-col justify-center items-center p-3 font-bold text-lg text-white w-full dark:bg-gray-800 dark:text-white rounded-md">
+    <section className="border-white bg-white text-black border-2 flex flex-col justify-center items-center p-3 font-bold text-lg w-full dark:bg-gray-800 dark:text-white rounded-md">
       <h3 className="mb-3">Charts</h3>
       <div className="w-full min-h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
@@ -33,8 +30,8 @@ const Charts = (props: Props) => {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Line type="monotone" dataKey="total_income" stroke="#8884d8" activeDot={{ r: 8 }} />
-            <Line type="monotone" dataKey="total_expense" stroke="#82ca9d" />
+            <Line type="monotone" dataKey="total_income" stroke="#16a34a" activeDot={{ r: 8 }} />
+            <Line type="monotone" dataKey="total_expense" stroke="#b91c1c" />
           </LineChart>
         </ResponsiveContainer>
       </div>

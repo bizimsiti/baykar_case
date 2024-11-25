@@ -23,7 +23,6 @@
 }
 
 body {
-  background: linear-gradient(45deg, rgba(20, 33, 67, 1) 0%, rgba(28, 99, 167, 1) 50%, rgba(255, 255, 255, 1) 100%);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

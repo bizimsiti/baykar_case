@@ -27,7 +27,26 @@ const budgetSlice = createSlice({
     addExpense: (state, action: PayloadAction<Data>) => {
       const id = nanoid();
       const monthIndex = getMonth(action.payload.date);
-      state.push({ ...action.payload, id, incomeOrexpense: "expense", month: months[monthIndex] });
+      const category = action.payload.category;
+      const existingExpenseIndex = state.findIndex(
+        (item) => item.category === category && item.incomeOrexpense === "expense"
+      );
+
+      if (existingExpenseIndex !== -1) {
+        const existingExpense = state[existingExpenseIndex];
+
+        state[existingExpenseIndex] = {
+          ...existingExpense,
+          amount: existingExpense.amount + action.payload.amount
+        };
+      } else {
+        state.push({
+          ...action.payload,
+          id,
+          incomeOrexpense: "expense",
+          month: months[monthIndex]
+        });
+      }
       localStorage.setItem("budget", JSON.stringify(state));
     },
     deleteData: (state, action: PayloadAction<string>) => {

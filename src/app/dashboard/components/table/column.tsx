@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Budget, Data } from "../../../../../types/Data";
+import { Data } from "../../../../../types/Data";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -62,9 +62,7 @@ export const columns: ColumnDef<Data>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>
-              Edit <Pencil className="0 h-5 w-5" />
-            </DropdownMenuItem>
+
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => store.dispatch(deleteData(budget.id))}>
               Delete <Trash2 className="text-red-600 h-5 w-5" />

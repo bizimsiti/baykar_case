@@ -2,9 +2,10 @@ import React from "react";
 import Income from "./components/Income";
 import Expense from "./components/Expense";
 import TotalBalance from "./components/TotalBalance";
-import Category from "./components/Category";
+import BudgetTable from "./components/BudgetTable";
 import Charts from "./components/Charts";
 import ToggleTheme from "@/components/_components/ToggleTheme";
+import Category from "./components/Category";
 
 type Props = {};
 
@@ -17,8 +18,10 @@ const page = (props: Props) => {
       <Expense />
       {/* TotalBalance component */}
       <TotalBalance />
-      {/* Categories */}
+      {/* categories */}
       <Category />
+      {/* Budget table */}
+      <BudgetTable />
       {/* charts */}
       <Charts />
     </main>

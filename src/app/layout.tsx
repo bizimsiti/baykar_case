@@ -21,7 +21,10 @@ export default function RootLayout({
   return (
     <StoreProvider>
       <html lang="en">
-        <body className={`${roboto.className} dark:bg-gradient-to-bl from-slate-900 from-0% via-cyan-900 to-gray-900`}>
+        <body
+          className={`${roboto.className} bg-gradient-to-bl from-cyan-400 to-indigo-600 
+          dark:bg-gradient-to-r dark:from-slate-900 dark:to-slate-700`}
+        >
           <Navbar />
           {children}
         </body>
