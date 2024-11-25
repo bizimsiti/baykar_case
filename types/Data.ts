@@ -11,3 +11,9 @@ export interface Data {
 export interface ExpenseData extends Data {
   limit: number;
 }
+
+export interface MonthlyTotals {
+  month: string;
+  total_income: number;
+  total_expense: number;
+}

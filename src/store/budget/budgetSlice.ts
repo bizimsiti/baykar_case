@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Data } from "../../../types/Data";
+import { Data, MonthlyTotals } from "../../../types/Data";
 import { nanoid } from "@reduxjs/toolkit";
 import { getMonth } from "date-fns";
 import { months } from "@/helpers/months";
+import { calculateMonthlyTotals } from "@/helpers/getMontlyChange";
 const getFromLocalStorage = (key: string) => {
   if (!key || typeof window === "undefined") {
     return "";
@@ -35,9 +36,14 @@ const budgetSlice = createSlice({
         1
       );
       localStorage.setItem("budget", JSON.stringify(state));
+    },
+    getMontyChange: (state, action) => {
+      const montlyBalance = calculateMonthlyTotals(state);
+      localStorage.setItem("montlychange", JSON.stringify(montlyBalance));
+      action.payload = montlyBalance;
     }
   }
 });
 
 export default budgetSlice.reducer;
-export const { addIncome, deleteData, addExpense } = budgetSlice.actions;
+export const { addIncome, deleteData, addExpense, getMontyChange } = budgetSlice.actions;

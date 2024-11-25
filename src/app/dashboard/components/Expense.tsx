@@ -5,7 +5,7 @@ import { Plus } from "lucide-react";
 import { formSchema } from "../../../../schemas/formSchema";
 import { input, ZodError } from "zod";
 import { useDispatch, useSelector } from "react-redux";
-import { addExpense } from "@/store/budget/budgetSlice";
+import { addExpense, getMontyChange } from "@/store/budget/budgetSlice";
 import { RootState } from "@/store/store";
 import { stat } from "fs";
 
@@ -37,6 +37,7 @@ const Expense = (props: Props) => {
     e.preventDefault();
 
     dispatch(addExpense(formData));
+    dispatch(getMontyChange(""));
 
     setFormData({
       limit: 0,
@@ -49,10 +50,9 @@ const Expense = (props: Props) => {
       month: ""
     });
   };
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     console.log(name, value);
-
     setFormData((prevState) => ({
       ...prevState,
       [name]: name === "amount" ? Number(value) : value
@@ -88,12 +88,9 @@ const Expense = (props: Props) => {
             />
           </div>
           <div className=" flex flex-col  mt-2">
-            <label className="text-white" htmlFor="cars">
+            <label className="text-white" htmlFor="selectcategory">
               Kategori seç
             </label>
-            <select name="cars" id="cars" className=" rounded p-3 outline-none">
-              {expenses && expenses.map((expense) => <option value={expense.category}>{expense.category}</option>)}
-            </select>
           </div>
           <div className=" flex flex-col  mt-2">
             <label className="text-white" htmlFor="desc">

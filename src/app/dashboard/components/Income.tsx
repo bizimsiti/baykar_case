@@ -3,7 +3,7 @@ import React, { ChangeEvent, ElementRef, FormEvent, useRef, useState } from "rea
 import { Data } from "../../../../types/Data";
 import { Plus } from "lucide-react";
 import { useDispatch } from "react-redux";
-import { addIncome } from "@/store/budget/budgetSlice";
+import { addIncome, getMontyChange } from "@/store/budget/budgetSlice";
 
 type Props = {};
 
@@ -26,6 +26,7 @@ const Income = (props: Props) => {
     e.preventDefault();
 
     dispatch(addIncome(formData));
+    dispatch(getMontyChange(""));
 
     setFormData({
       incomeOrexpense: "",
